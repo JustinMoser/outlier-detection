@@ -4,6 +4,9 @@ namespace OutlierDetection
 {
 	public class StreamDataSourceBase : DataSourceBase
 	{
+        // TODO: This class will need to be implemented to include stream connect/disconnect
+        // and its own implementation of GetData
+
 		private string _address;
 
 		public StreamDataSourceBase (string address)

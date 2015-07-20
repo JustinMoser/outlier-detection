@@ -9,5 +9,6 @@ namespace OutlierDetection.Data
 {
 	public abstract class StaticDataSourceBase : DataSourceBase
     {
+        // TODO: Some common static data source specific implementation will go here
     }
 }

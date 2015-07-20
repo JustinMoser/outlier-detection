@@ -24,7 +24,7 @@ namespace OutlierDetection.Extensions
                 result.Add(new List<T>(s.Count()));
 
             for (int j = 0; j < s.Count(); ++j)
-                for(int k = 0; k < max; ++k)
+                for (int k = 0; k < max; ++k)
                     result[k].Add(s.ElementAt(j).Count() > k ? s.ElementAt(j).ElementAt(k) : default(T));
 
             return result;
@@ -46,9 +46,9 @@ namespace OutlierDetection.Extensions
 
 
             using (IEnumerator<T> e1 = s1.GetEnumerator())
-                using (IEnumerator<T> e2 = s2.GetEnumerator())
-                    while (e1.MoveNext() && e2.MoveNext())
-                        yield return f(e1.Current, e2.Current);
+            using (IEnumerator<T> e2 = s2.GetEnumerator())
+                while (e1.MoveNext() && e2.MoveNext())
+                    yield return f(e1.Current, e2.Current);
 
         }
 

@@ -25,58 +25,58 @@ namespace OutlierDetection.Data
             }
         }
 
-		protected override void GetData()
-		{
-			using (StreamReader sr = new StreamReader(_file))
-			{
-				string currentLine;
-				int index = 1;
-				while ((currentLine = sr.ReadLine()) != null)
-				{
-					if (_skipHeaders && index == 1)
-					{
-						currentLine = sr.ReadLine();
-					}
-						
-					string[] components = currentLine.Split(',');
-					string[] dateComponents = components[0].Split('/');
+        protected override void GetData()
+        {
+            using (StreamReader sr = new StreamReader(_file))
+            {
+                string currentLine;
+                int index = 1;
+                while ((currentLine = sr.ReadLine()) != null)
+                {
+                    if (_skipHeaders && index == 1)
+                    {
+                        currentLine = sr.ReadLine();
+                    }
 
-					if (dateComponents[0].Length == 1)
-					{
-						dateComponents[0] = String.Format("0{0}", dateComponents[0]);
-					}
+                    string[] components = currentLine.Split(',');
+                    string[] dateComponents = components[0].Split('/');
 
-					if (dateComponents[1].Length == 1)
-					{
-						dateComponents[1] = String.Format("0{0}", dateComponents[1]);
-					}
+                    if (dateComponents[0].Length == 1)
+                    {
+                        dateComponents[0] = String.Format("0{0}", dateComponents[0]);
+                    }
 
-					components[0] = String.Join("/", dateComponents);
+                    if (dateComponents[1].Length == 1)
+                    {
+                        dateComponents[1] = String.Format("0{0}", dateComponents[1]);
+                    }
 
-					DateTime period = new DateTime();
+                    components[0] = String.Join("/", dateComponents);
 
-					if (DateTime.TryParseExact(components[0], "dd/MM/yyyy", null, DateTimeStyles.None, out period))
-					{
-						double value;
-						if (double.TryParse(components[1], out value))
-						{
-							Data.Add(new TimeSeriesDataPoint() { Period = period, Value = value });
-						}
-						else
-						{
-							Errors++;
-						}
-					}
-					else
-					{
-						Errors++;
-					}
+                    DateTime period = new DateTime();
 
-					index++;
-				}
-			}
+                    if (DateTime.TryParseExact(components[0], "dd/MM/yyyy", null, DateTimeStyles.None, out period))
+                    {
+                        double value;
+                        if (double.TryParse(components[1], out value))
+                        {
+                            Data.Add(new TimeSeriesDataPoint() { Period = period, Value = value });
+                        }
+                        else
+                        {
+                            Errors++;
+                        }
+                    }
+                    else
+                    {
+                        Errors++;
+                    }
 
-			StopCollectData();
-		}
+                    index++;
+                }
+            }
+
+            StopCollectData();
+        }
     }
 }

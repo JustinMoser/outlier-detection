@@ -16,7 +16,7 @@ namespace OutlierDetection.Model
         private double _pointSum;
         private double _prevMean;
         private readonly double _latestPointWeight;
-		private readonly MeanType _meanType;
+        private readonly MeanType _meanType;
 
 
         public ObservableCollection<TimeSeriesDataPoint> DataPoints { get; private set; }
@@ -38,11 +38,11 @@ namespace OutlierDetection.Model
         public TimeSeries(MeanType meanType, double latestPointWeighting)//, IOutlierAlgorithm outlierAlgorithm)
         {
             DataPoints = new ObservableCollection<TimeSeriesDataPoint>();
-			_meanType = meanType;
+            _meanType = meanType;
             _pointCount = 0;
             _pointSum = 0.0;
             _prevMean = 0.0;
-			_latestPointWeight = latestPointWeighting;
+            _latestPointWeight = latestPointWeighting;
             DataPoints.CollectionChanged += DataPointsOnCollectionChanged;
         }
 
@@ -65,14 +65,14 @@ namespace OutlierDetection.Model
                 }
                 else
                 {
-					if (_meanType == MeanType.Weighted) 
-					{
-						Mean = ((1 - _latestPointWeight) * _prevMean) + (_latestPointWeight * (dp.Value));
-					} 
-					else 
-					{
-						Mean = _pointSum / _pointCount;
-					}
+                    if (_meanType == MeanType.Weighted)
+                    {
+                        Mean = ((1 - _latestPointWeight) * _prevMean) + (_latestPointWeight * (dp.Value));
+                    }
+                    else
+                    {
+                        Mean = _pointSum / _pointCount;
+                    }
                 }
 
                 StdDev = (_pointCount == 0 || _pointCount == 1) ? 0 : Math.Sqrt((DataPoints.Sum(p => Math.Pow(p.Value - Mean, 2))) / _pointCount);

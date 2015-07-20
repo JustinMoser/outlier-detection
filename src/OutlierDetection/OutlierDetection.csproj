@@ -32,6 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MatlabGraph, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\MatlabGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="MWArray, Version=2.13.0.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\MWArray.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,7 +67,6 @@
     <Compile Include="Data\DataSourceBase.cs" />
     <Compile Include="Data\StreamDataSourceBase.cs" />
     <Compile Include="Model\MeanType.cs" />
-    <Compile Include="Model\Subscription.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
