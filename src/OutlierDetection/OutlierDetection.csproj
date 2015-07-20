@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -32,14 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MatlabGraph, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Justin\Desktop\MatlabGraph\distrib\MatlabGraph.dll</HintPath>
-    </Reference>
-    <Reference Include="MWArray, Version=2.13.0.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\MATLAB\R2013a\toolbox\dotnetbuilder\bin\win32\v2.0\MWArray.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,14 +45,21 @@
     <Compile Include="Algorithms\IOutlierAlgorithm.cs" />
     <Compile Include="Algorithms\MovingAverage.cs" />
     <Compile Include="Data\CSVDataSource.cs" />
-    <Compile Include="Data\IDataSourceAdapter.cs" />
+    <Compile Include="Data\DataSourceType.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Managers\TimeSeriesManager.cs" />
-    <Compile Include="Matlab\MatLabIO.cs" />
+    <Compile Include="Matlab\MatLabIO.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Model\TimeSeries.cs" />
     <Compile Include="Model\TimeSeriesDataPoint.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Data\StaticDataSourceBase.cs" />
+    <Compile Include="Data\DataSourceBase.cs" />
+    <Compile Include="Data\StreamDataSourceBase.cs" />
+    <Compile Include="Model\MeanType.cs" />
+    <Compile Include="Model\Subscription.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

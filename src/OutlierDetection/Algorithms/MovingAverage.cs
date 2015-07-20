@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OutlierDetection.Model;
 
 namespace OutlierDetection.Algorithms
@@ -22,7 +18,7 @@ namespace OutlierDetection.Algorithms
 
         public bool IsOutLier(TimeSeries series, TimeSeriesDataPoint samplePoint)
         {
-            double diff = (Math.Abs(samplePoint.Value - series.Mean)/series.Mean);
+            double diff = Math.Abs(samplePoint.Value - series.Mean)/series.Mean;
             return (diff > _threshold);
         }
     }

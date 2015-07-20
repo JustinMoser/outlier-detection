@@ -1,0 +1,21 @@
+﻿<Properties StartupItem="OutlierDetection/OutlierDetection.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="OutlierDetection/Data/CSVDataSource.cs">
+    <Files>
+      <File FileName="OutlierDetection/Data/StaticDataSourceBase.cs" Line="1" Column="1" />
+      <File FileName="OutlierDetection/Data/CSVDataSource.cs" Line="44" Column="30" />
+      <File FileName="OutlierDetection/Data/DataSourceBase.cs" Line="1" Column="1" />
+      <File FileName="OutlierDetection/Managers/TimeSeriesManager.cs" Line="1" Column="1" />
+      <File FileName="OutlierDetection/Model/TimeSeries.cs" Line="1" Column="1" />
+      <File FileName="OutlierDetection/Program.cs" Line="30" Column="4" />
+      <File FileName="OutlierDetection/Data/StreamDataSourceBase.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/Justin/Desktop/outliers_test/OutlierDetection/Program.cs" line="66" column="1" />
+      <Breakpoint file="/Users/Justin/Desktop/outliers_test/OutlierDetection/Program.cs" line="42" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OutlierDetection.Model;
 
-namespace OutlierDetection.Algorithms
+namespace OutlierDetection.Data
 {
-    public interface IOutlierAlgorithm
+	public abstract class StaticDataSourceBase : DataSourceBase
     {
-        bool IsOutLier(TimeSeries series, TimeSeriesDataPoint samplePoint);
     }
 }

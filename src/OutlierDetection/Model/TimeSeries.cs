@@ -12,11 +12,11 @@ namespace OutlierDetection.Model
 {
     public class TimeSeries
     {
-        //private IOutlierAlgorithm _outlierAlgorithm;
         private int _pointCount;
         private double _pointSum;
         private double _prevMean;
         private readonly double _latestPointWeight;
+		private readonly MeanType _meanType;
 
 
         public ObservableCollection<TimeSeriesDataPoint> DataPoints { get; private set; }
@@ -35,22 +35,19 @@ namespace OutlierDetection.Model
 
         //public bool LatestPointIsOutlier { get; private set; }
 
-        public TimeSeries(double latestPointWeighting)//, IOutlierAlgorithm outlierAlgorithm)
+        public TimeSeries(MeanType meanType, double latestPointWeighting)//, IOutlierAlgorithm outlierAlgorithm)
         {
-            //if(outlierAlgorithm == null) throw new ArgumentException("Provide outlier algo. Outlier algo cannot be null");
-            //_outlierAlgorithm = outlierAlgorithm;
             DataPoints = new ObservableCollection<TimeSeriesDataPoint>();
-            _latestPointWeight = latestPointWeighting;
+			_meanType = meanType;
             _pointCount = 0;
             _pointSum = 0.0;
             _prevMean = 0.0;
-
+			_latestPointWeight = latestPointWeighting;
             DataPoints.CollectionChanged += DataPointsOnCollectionChanged;
         }
 
         private void DataPointsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            //LatestPointIsOutlier = false;
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 TimeSeriesDataPoint dp = (TimeSeriesDataPoint)e.NewItems[0];
@@ -68,12 +65,14 @@ namespace OutlierDetection.Model
                 }
                 else
                 {
-                    //if (_outlierAlgorithm.IsOutLier(this, dp))
-                    //{
-                    //    LatestPointIsOutlier = true;
-                    //}
-
-                    Mean = ((1 - _latestPointWeight) * _prevMean) + (_latestPointWeight * (dp.Value));
+					if (_meanType == MeanType.Weighted) 
+					{
+						Mean = ((1 - _latestPointWeight) * _prevMean) + (_latestPointWeight * (dp.Value));
+					} 
+					else 
+					{
+						Mean = _pointSum / _pointCount;
+					}
                 }
 
                 StdDev = (_pointCount == 0 || _pointCount == 1) ? 0 : Math.Sqrt((DataPoints.Sum(p => Math.Pow(p.Value - Mean, 2))) / _pointCount);
@@ -85,5 +84,4 @@ namespace OutlierDetection.Model
             DataPoints.Add(dataPoint);
         }
     }
-
 }

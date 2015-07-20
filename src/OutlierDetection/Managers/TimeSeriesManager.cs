@@ -1,72 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OutlierDetection.Algorithms;
 using OutlierDetection.Data;
 using OutlierDetection.Model;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace OutlierDetection.Managers
 {
     public class TimeSeriesManager
     {
         private readonly IOutlierAlgorithm _outlierAlgorithm;
-        private readonly IDataSourceAdapter _dataSource;
-        private readonly ICollection<TimeSeriesDataPoint> _cleanSet;
-        private readonly ICollection<TimeSeriesDataPoint> _outliers;
-        private readonly int _frequency;
+		public ICollection<TimeSeriesDataPoint> _clean;
+		public ICollection<TimeSeriesDataPoint> _outliers;
+		private Action<TimeSeriesDataPoint> _cleanF;
+		private Action<TimeSeriesDataPoint> _outlierF;
 
         public TimeSeries Series { get; private set; }
         public ICollection<double> MeanSeries { get; private set; }
 
 
-        public TimeSeriesManager(IDataSourceAdapter dataSource, IOutlierAlgorithm outlierAlgo, int frequency = 0)
+		public TimeSeriesManager(IOutlierAlgorithm algo, 
+			MeanType meanType, 
+			Action<TimeSeriesDataPoint> cleanSubscriptionF,
+			Action<TimeSeriesDataPoint> outlierSubscriptionF,
+			double pointWeighting = 0.0)
         {
-            if (dataSource == null) throw new ArgumentException("Provide a data source");
-            if (outlierAlgo == null) throw new ArgumentException("Provide an outlier algorithm");
-
-            _outlierAlgorithm = outlierAlgo;
-            _dataSource = dataSource;
-            _cleanSet = new List<TimeSeriesDataPoint>();
-            _outliers = new List<TimeSeriesDataPoint>();
-            _frequency = frequency;
-
-            Series = new TimeSeries(0.4);//, outlierAlgo);
+			if (algo == null) throw new ArgumentException("Please provide an outlier algo");
+			_outlierAlgorithm = algo;
+			_clean = new ObservableCollection<TimeSeriesDataPoint>();
+			_outliers = new ObservableCollection<TimeSeriesDataPoint>();
+			_cleanF = cleanSubscriptionF;
+			_outlierF = outlierSubscriptionF;
+			Series = new TimeSeries(meanType, pointWeighting);
             MeanSeries = new List<double>();
         }
 
-        public void CreateTimeSeries()
+        public void Update(TimeSeriesDataPoint dp)
         {
-            foreach (TimeSeriesDataPoint dp in _dataSource.GetData())
+            Series.AddPointToSeries(dp);
+            MeanSeries.Add(Series.Mean);
+
+            if (Series.SeriesCount > 0)
             {
-                if (Series.SeriesCount > 0)
+                if (_outlierAlgorithm.IsOutLier(Series, dp))
                 {
-                    if (_outlierAlgorithm.IsOutLier(Series, dp))
-                    {
-                        _outliers.Add(dp);
-                    }
-                    else
-                    {
-                        _cleanSet.Add(dp);
-                    }
+					_outlierF(dp);
                 }
-
-                Series.AddPointToSeries(dp);
-                MeanSeries.Add(Series.Mean);
+                else
+                {
+					_cleanF(dp);
+                }
             }
-
-            Console.WriteLine("Reading Errors: " + _dataSource.Errors());
-        }
-
-        public ICollection<TimeSeriesDataPoint> CleanData()
-        {
-            return _cleanSet;
-        }
-
-        public IEnumerable<TimeSeriesDataPoint> Outliers()
-        {
-            return _outliers;
         }
     }
 }
